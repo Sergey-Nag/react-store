@@ -16,9 +16,9 @@ describe('LocalStorage user state', () => {
     it('Should set user data to the local storage', () => {
       jest
         .spyOn(Object.getPrototypeOf(global.localStorage), 'setItem')
-        .mockImplementation(jest.fn())
+        .mockImplementation(jest.fn());
 
-        setLocalStorageUser(USER);
+      setLocalStorageUser(USER);
       
       expect(localStorage.setItem).toBeCalledWith(USER_LOCAL_STATE_KEY, stringifyUserObject);
     });
@@ -28,7 +28,7 @@ describe('LocalStorage user state', () => {
     it('Should return the user data from the local storage as object', () => {
       jest
         .spyOn(Object.getPrototypeOf(global.localStorage), 'getItem')
-        .mockReturnValue(stringifyUserObject)
+        .mockReturnValue(stringifyUserObject);
       
       const user = getLocalStorageUser();
       
@@ -39,7 +39,7 @@ describe('LocalStorage user state', () => {
     it('Should return null if user does not exist in the local storage', () => {
       jest
         .spyOn(Object.getPrototypeOf(global.localStorage), 'getItem')
-        .mockReturnValue(null)
+        .mockReturnValue(null);
       
       const user = getLocalStorageUser();
 
@@ -52,7 +52,7 @@ describe('LocalStorage user state', () => {
     it('Should clear user data from the local storage', () => {
       jest
         .spyOn(Object.getPrototypeOf(global.localStorage), 'removeItem')
-        .mockImplementation(jest.fn())
+        .mockImplementation(jest.fn());
 
       clearLocalStorageUser();
 
