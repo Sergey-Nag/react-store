@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import { NotFoundPage } from "../../../components/not-found/not-found-page";
+import { NotFoundPage } from "../../../src/components/not-found/not-found-page";
 
 describe('Not found page', () => {
   it('Should render the component', () => {
