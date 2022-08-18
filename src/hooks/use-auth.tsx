@@ -7,13 +7,13 @@ import { clearLocalStorageUser, getLocalStorageUser, setLocalStorageUser } from 
 
 interface AuthState {
   user: User | null,
-  login: (username: string) => void,
+  login: (username: string) => Promise<User | null>,
   logout: () => void
 }
 
 const initialAuthState: AuthState = {
   user: null,
-  login() {},
+  login() { return Promise.resolve(null) },
   logout() {},
 };
 
@@ -21,33 +21,31 @@ const AuthContext = createContext(initialAuthState);
 
 
 export function AuthProvider(props: any) {
-  const [username, setUsername] = useState<string | null>(null);
-  const localStorageUser = useMemo(() => getLocalStorageUser(), []);
+  const [userData, setUserData] = useState<User | null>(getLocalStorageUser);
+  const [authError, setAuthError] = useState<Error | null>(null);
 
-  const login = (username: string) => {
-    if (localStorageUser) return;
+  const login = async (username: string) => {
+    if (userData) return;
+    let userResponse;
+    try {
+      userResponse = await loginUser(username);
+      setUserData(userResponse);
+      setLocalStorageUser(userResponse)
+    } catch(e) {
+      setAuthError(e as Error);
+    }
 
-    setUsername(username);
+    return userResponse ?? null;
   };
 
   const logout = () => {
     clearLocalStorageUser();
-    setUsername(null);
+    setUserData(null);
   };
 
-  const { data: userData } = useQuery(
-    [RQ_KEY.LOGIN_USER, username],
-    () => loginUser(username),
-    {
-      enabled: !localStorageUser && !!username,
-      onSuccess: (data) => {
-        setLocalStorageUser(data);
-      }
-    }
-  );
-
   const authContextValue = { 
-    user: localStorageUser ?? userData,
+    user: userData,
+    authError,
     login,
     logout,
   }

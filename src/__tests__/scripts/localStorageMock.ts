@@ -20,3 +20,5 @@
 // Object.defineProperty(window, 'localStorage', {
 //   value: localStorageMock
 // });
+
+export const a = 1;
