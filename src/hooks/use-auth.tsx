@@ -3,7 +3,7 @@ import { useQuery } from "react-query";
 import { RQ_KEY } from "../config/react-query";
 import { loginUser } from "../api/user";
 import { User } from "../types/user";
-import { clearLocalStoragerUser, getLocalStoragetUser, setLocalStoragetUser } from "../utils/user";
+import { clearLocalStorageUser, getLocalStorageUser, setLocalStorageUser } from "../utils/user";
 
 interface AuthState {
   user: User | null,
@@ -22,7 +22,7 @@ const AuthContext = createContext(initialAuthState);
 
 export function AuthProvider(props: any) {
   const [username, setUsername] = useState<string | null>(null);
-  const localStorageUser = useMemo(() => getLocalStoragetUser(), []);
+  const localStorageUser = useMemo(() => getLocalStorageUser(), []);
 
   const login = (username: string) => {
     if (localStorageUser) return;
@@ -31,7 +31,7 @@ export function AuthProvider(props: any) {
   };
 
   const logout = () => {
-    clearLocalStoragerUser();
+    clearLocalStorageUser();
     setUsername(null);
   };
 
@@ -41,7 +41,7 @@ export function AuthProvider(props: any) {
     {
       enabled: !localStorageUser && !!username,
       onSuccess: (data) => {
-        setLocalStoragetUser(data);
+        setLocalStorageUser(data);
       }
     }
   );
