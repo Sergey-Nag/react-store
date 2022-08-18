@@ -2,45 +2,35 @@ import { USER_LOCAL_STATE_KEY } from "../../constants/user"
 import { User } from "../../types/user"
 import { clearLocalStorageUser, getLocalStorageUser, setLocalStorageUser } from "../../utils/user"
 
-
 describe('LocalStorage user state', () => {
-  const USER: User = {
+  const mockUser: User = {
     username: 'test',
     avatar: 'test',
     token: 'test',
   };
 
-  const stringifyUserObject = JSON.stringify(USER);
+  const stringifyMockUserObject = JSON.stringify(mockUser);
 
   describe('setLocalStoragetUser():', () => {
     it('Should set user data to the local storage', () => {
-      jest
-        .spyOn(Object.getPrototypeOf(global.localStorage), 'setItem')
-        .mockImplementation(jest.fn());
-
-      setLocalStorageUser(USER);
+      localStorage.setItem = jest.fn();
+      setLocalStorageUser(mockUser);
       
-      expect(localStorage.setItem).toBeCalledWith(USER_LOCAL_STATE_KEY, stringifyUserObject);
+      expect(localStorage.setItem).toBeCalledWith(USER_LOCAL_STATE_KEY, stringifyMockUserObject);
     });
   })
 
   describe('getLocalStoragetUser():', () => {
-    it('Should return the user data from the local storage as object', () => {
-      jest
-        .spyOn(Object.getPrototypeOf(global.localStorage), 'getItem')
-        .mockReturnValue(stringifyUserObject);
-      
+    it('Should return the user data from the local storage as object', () => {   
+      localStorage.getItem = jest.fn(() => stringifyMockUserObject);
       const user = getLocalStorageUser();
       
       expect(localStorage.getItem).toBeCalled();
-      expect(user).toEqual(USER);
+      expect(user).toEqual(mockUser);
     });
     
     it('Should return null if user does not exist in the local storage', () => {
-      jest
-        .spyOn(Object.getPrototypeOf(global.localStorage), 'getItem')
-        .mockReturnValue(null);
-      
+      localStorage.getItem = jest.fn(() => null);
       const user = getLocalStorageUser();
 
       expect(localStorage.getItem).toBeCalled();
@@ -50,13 +40,10 @@ describe('LocalStorage user state', () => {
 
   describe('clearLocalStorageUser():', () => {
     it('Should clear user data from the local storage', () => {
-      jest
-        .spyOn(Object.getPrototypeOf(global.localStorage), 'removeItem')
-        .mockImplementation(jest.fn());
-
+      localStorage.removeItem = jest.fn();
       clearLocalStorageUser();
 
-      expect(localStorage.removeItem).toBeCalledWith(USER_LOCAL_STATE_KEY);
+      expect(localStorage.removeItem).toHaveBeenCalledWith(USER_LOCAL_STATE_KEY);
     });
   });
 });
