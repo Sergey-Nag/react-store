@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { LoginComponent } from "../../../components/login/login";
-import { AuthProvider } from "../../../hooks/use-auth";
+import { LoginComponent } from "../../../src/components/login/login";
+import { AuthProvider } from "../../../src/hooks/use-auth";
 
 const renderWithProvider = () => {
   return (
