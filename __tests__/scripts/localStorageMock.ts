@@ -1,5 +1,3 @@
-test.skip('localStorageMock', () => undefined)
-
 const localStorageMock = (function() {
   let store: Record<string, any> = {};
 

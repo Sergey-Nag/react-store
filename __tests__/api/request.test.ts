@@ -1,7 +1,6 @@
 import axios from 'axios';
-import { request } from '../../api/reqest';
-import { BOOKS_API_BASE_URL } from '../../constants/books-api';
-
+import { request } from '../../src/api/reqest';
+import { BOOKS_API_BASE_URL } from '../../src/constants/books-api';
 
 jest.mock('axios');
 

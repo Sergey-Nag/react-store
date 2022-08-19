@@ -1,11 +1,11 @@
-import { request } from "../../api/reqest";
-import { loginUser } from "../../api/user";
-import { BOOKS_API_BASE_URL } from "../../constants/books-api";
-import { User } from "../../types/user";
+import { request } from "../../src/api/reqest";
+import { loginUser } from "../../src/api/user";
+import { BOOKS_API_BASE_URL } from "../../src/constants/books-api";
+import { User } from "../../src/types/user";
 
-jest.mock('../../api/reqest', () => ({
+jest.mock('../../src/api/reqest', () => ({
   request: jest.fn()
-}))
+}));
 
 describe('LoginUser', () => {
   const mockUser: User = {

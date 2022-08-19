@@ -1,6 +1,6 @@
-import { USER_LOCAL_STATE_KEY } from "../../constants/user"
-import { User } from "../../types/user"
-import { clearLocalStorageUser, getLocalStorageUser, setLocalStorageUser } from "../../utils/user"
+import { USER_LOCAL_STATE_KEY } from "../../src/constants/user"
+import { User } from "../../src/types/user"
+import { clearLocalStorageUser, getLocalStorageUser, setLocalStorageUser } from "../../src/utils/user"
 
 describe('LocalStorage user state', () => {
   const mockUser: User = {
