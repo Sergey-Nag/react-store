@@ -1,6 +1,4 @@
-import { createContext, useContext, useMemo, useState } from "react"
-import { useQuery } from "react-query";
-import { RQ_KEY } from "../config/react-query";
+import { createContext, useContext, useState } from "react"
 import { loginUser } from "../api/user";
 import { User } from "../types/user";
 import { clearLocalStorageUser, getLocalStorageUser, setLocalStorageUser } from "../utils/user";
