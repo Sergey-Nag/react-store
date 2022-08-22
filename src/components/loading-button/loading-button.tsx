@@ -1,10 +1,10 @@
-import { ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 import cn from 'classnames';
 
-interface LoadingButtonProps {
+interface LoadingButtonProps
+  extends ButtonHTMLAttributes<HTMLButtonElement> {
   loading: boolean;
   children: ReactNode;
-  [key: string]: any;
 }
 
 export function LoadingButton({ className, loading, children, ...rest }: LoadingButtonProps) {
