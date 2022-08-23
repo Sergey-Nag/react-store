@@ -30,12 +30,43 @@ describe('Login', () => {
 
   afterEach(() => {
     localStorage.clear();
+    jest.resetAllMocks();
   });
 
   it('Should render login component', () => {
     const { asFragment } = renderWithAuthProviderAndRouter();
 
     expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('Should show error notification if request fails', async () => {
+    const root = document.createElement('div');
+    root.id = 'root';
+    document.body.append(root);
+
+    (loginUser as jest.Mock).mockRejectedValue(new Error('Something went wrong'));
+
+    renderWithAuthProviderAndRouter();
+
+    fireEvent.change(
+      screen.getByRole('textbox'), 
+      { target : { value: 'test@test.tt' }}
+    );
+    
+    const submitButton = screen.getByRole('button');
+
+    await waitFor(() => expect(submitButton).toBeEnabled());
+
+    fireEvent.click(submitButton);
+
+    expect(submitButton).toBeDisabled();
+
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).toBeInTheDocument();
+    });
+
+    expect(screen.getByText('Something went wrong')).toBeInTheDocument();
+    expect(submitButton).toBeEnabled();
   });
 
   describe('The Submit button shold be desabled with values', () => {
