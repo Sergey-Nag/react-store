@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Loading button Should render button with loader if the loading property is true: with loader 1`] = `
+<DocumentFragment>
+  <button
+    class="btn btn-primary"
+  >
+    <span
+      aria-hidden="true"
+      class="spinner-border spinner-border-sm me-2"
+      role="status"
+    />
+    Loading
+  </button>
+</DocumentFragment>
+`;
+
+exports[`Loading button Should render button without loader if the loading property is false: without loader 1`] = `
+<DocumentFragment>
+  <button
+    class="btn btn-primary"
+  >
+    test
+  </button>
+</DocumentFragment>
+`;
