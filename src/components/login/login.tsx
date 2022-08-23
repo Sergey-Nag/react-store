@@ -26,7 +26,9 @@ export function LoginComponent() {
   };
 
   useEffect(() => {
-    if (user) navigate('/catalog');
+    if (user) {
+      navigate('/catalog');
+    }
   }, [user]);
 
   useEffect(() => {

@@ -7,7 +7,6 @@ import './header.scss';
 export function Header() {
   const { user, logout } = useAuth();
   const { username } = useMemo(() => user ?? GUEST_USER , [user]);
-
   const getUsernamePlaceholder = (username: string) => username.slice(0, 2);
 
   return (

@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dropdown button Should initially render component without nested items 1`] = `
+<DocumentFragment>
+  <div
+    class="position-relative"
+    role="menu"
+  >
+    <button
+      class="btn"
+      type="button"
+    >
+      <svg
+        fill="currentColor"
+        height="1em"
+        viewBox="0 0 16 16"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+          fill-rule="evenodd"
+        />
+      </svg>
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`Dropdown button Should render component with nested elements to which the menuitem class has been passed 1`] = `
+<DocumentFragment>
+  <div
+    class="position-relative"
+    role="menu"
+  >
+    <button
+      class="btn"
+      type="button"
+    >
+      <svg
+        fill="currentColor"
+        height="1em"
+        viewBox="0 0 16 16"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"
+          fill-rule="evenodd"
+        />
+      </svg>
+    </button>
+    <div
+      class="dropdown-menu dropdown-right show"
+    >
+      <div
+        class="dropdown-item"
+        role="menuitem"
+      >
+        Test item 1
+      </div>
+      <div
+        class="dropdown-item"
+        role="menuitem"
+      >
+        Test item 2
+      </div>
+      Test text 3
+    </div>
+  </div>
+</DocumentFragment>
+`;

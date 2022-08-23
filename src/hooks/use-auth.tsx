@@ -48,7 +48,7 @@ export function AuthProvider(props: any) {
     logout,
   }
 
-  return <AuthContext.Provider {...props} value={authContextValue} />
+  return <AuthContext.Provider value={authContextValue} {...props} />
 }
 
 export const useAuth = () => useContext(AuthContext);

@@ -1,22 +1,36 @@
-import React, { Children, cloneElement, ReactElement, ReactNode, useEffect, useRef, useState } from "react";
+import React, {
+  ButtonHTMLAttributes,
+  Children,
+  cloneElement,
+  ReactElement,
+  ReactNode,
+  useRef,
+  useState
+} from "react";
 import { ChevronUp, ChevronDown } from "react-bootstrap-icons";
 import './dropdown-button.scss';
 import cn from 'classnames';
+import { useClickOutside } from "../../hooks/use-click-outside";
 
-interface DropdownButtonProps {
+export interface DropdownButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text?: string | ReactElement;
-  children: ReactNode;
-  [key: string]: any;
+  children?: ReactNode;
 }
 
 export function DropdownButton({ text, className, children }: DropdownButtonProps) {
   const buttonClassNames = cn(className, 'btn');
   const buttonRef = useRef<HTMLDivElement>(null);
   const [isDropdownShown, setIsDropdownShown] = useState(false);
-  const dropdownClassNames = cn('dropdown-menu', 'dropdown-right', isDropdownShown && 'show');
+  
+  const handleToggleDropdown = () => setIsDropdownShown((isShown) => !isShown);
+  useClickOutside(buttonRef, handleCloseDropdown);
+  
+  function handleCloseDropdown() {
+     setIsDropdownShown(false);
+  }
 
-  const modifyChildren = (child: ReactNode) => {
-    if (child && 'props' in (child as ReactElement)) {
+  const extendChildClassName = (child: ReactNode) => {
+    if (child && typeof child !== 'string' && 'props' in (child as ReactElement)) {
       const className = cn(
         (child as ReactElement).props.className,
         'dropdown-item'
@@ -27,22 +41,7 @@ export function DropdownButton({ text, className, children }: DropdownButtonProp
 
     return child;
   }
-  
-  useEffect(() => {
-    const handleOutsideClick = ({ target }: MouseEvent) => {
-      if (target && buttonRef.current?.contains(target as HTMLElement)) {
-        setIsDropdownShown((isShown) => !isShown);
 
-        return;
-      };
-
-      setIsDropdownShown(false);
-    }
-
-    document.addEventListener('click', handleOutsideClick);
-
-    return () => document.removeEventListener('click', handleOutsideClick);
-  }, [buttonRef]);
 
   return (
     <div
@@ -50,12 +49,14 @@ export function DropdownButton({ text, className, children }: DropdownButtonProp
       role="menu"
       ref={buttonRef}
     >
-      <button type="button" className={buttonClassNames}>
+      <button type="button" className={buttonClassNames} onClick={handleToggleDropdown}>
         { text || (isDropdownShown ? <ChevronUp /> : <ChevronDown />) }
       </button>
-      <div className={dropdownClassNames}>
-        { Children.map(children, modifyChildren) }
-      </div>
+      { isDropdownShown && 
+        <div className="dropdown-menu dropdown-right show" >
+        { Children.map(children, extendChildClassName) }
+        </div>
+      }
     </div>
   );
 }

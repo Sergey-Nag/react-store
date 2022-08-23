@@ -69,16 +69,6 @@ exports[`Header Should render component with username and dropdown if user exist
               />
             </svg>
           </button>
-          <div
-            class="dropdown-menu dropdown-right"
-          >
-            <button
-              class="btn dropdown-item"
-              role="menuitem"
-            >
-              Logout
-            </button>
-          </div>
         </div>
       </div>
     </div>
