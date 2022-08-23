@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EMAIL_REGEXP } from "../../constants/email-regexp";
+import { ROUTES } from "../../constants/routes";
 import { useAuth } from "../../hooks/use-auth";
 import { useDebounce } from "../../hooks/use-debounce";
+import { LoadingButton } from "../loading-button/loading-button";
 
 export function LoginComponent() {
   const { login, user } = useAuth();
@@ -26,7 +28,7 @@ export function LoginComponent() {
   };
 
   useEffect(() => {
-    if (user) navigate('/catalog');
+    if (user) navigate(ROUTES.CATALOG);
   }, [user]);
 
   useEffect(() => {
@@ -46,14 +48,13 @@ export function LoginComponent() {
                 placeholder="Email"
               />
               <div className="d-grid pt-3">
-                <button
+                <LoadingButton
                   onClick={handleLogin}
+                  loading={isLoading}
                   disabled={!isValid || isLoading}
-                  className="btn btn-primary"
                 >
-                  { isLoading && <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> }
-                  { isLoading ? 'Loading' : 'Submit' }
-                </button>
+                  Submit
+                </LoadingButton>
               </div>
             </div>
           </div>
