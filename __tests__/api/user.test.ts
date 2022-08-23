@@ -1,21 +1,21 @@
-import { request } from "../../src/api/reqest";
+import axios from "axios";
 import { loginUser } from "../../src/api/user";
 import { BOOKS_API_BASE_URL } from "../../src/constants/books-api";
 import { User } from "../../src/types/user";
 
-jest.mock('../../src/api/reqest', () => ({
-  request: jest.fn()
+jest.mock('axios', () => ({
+  post: jest.fn()
 }));
 
 describe('LoginUser', () => {
   const mockUser: User = {
-    username: 'test',
+    username: 'test@test.t',
     avatar: 'test',
     token: 'test',
   };
 
   beforeEach(() => {
-    (request as jest.Mock).mockResolvedValue(mockUser);
+    (axios.post as jest.Mock).mockResolvedValue({ data: mockUser });
   });
 
   afterEach(() => {
@@ -27,7 +27,7 @@ describe('LoginUser', () => {
 
     const user = await loginUser(username);
 
-    expect(request).toHaveBeenCalledWith(`${BOOKS_API_BASE_URL}/signin`, 'POST', { username });
+    expect(axios.post).toHaveBeenCalledWith(`${BOOKS_API_BASE_URL}/signin`, { username });
     expect(user).toEqual(mockUser);
   });
 });

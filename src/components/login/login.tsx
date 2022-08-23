@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EMAIL_REGEXP } from "../../constants/email-regexp";
-import { ROUTES } from "../../constants/routes";
 import { useAuth } from "../../hooks/use-auth";
 import { useDebounce } from "../../hooks/use-debounce";
 import { LoadingButton } from "../loading-button/loading-button";
@@ -28,7 +27,9 @@ export function LoginComponent() {
   };
 
   useEffect(() => {
-    if (user) navigate(ROUTES.CATALOG);
+    if (user) {
+      navigate('/catalog');
+    }
   }, [user]);
 
   useEffect(() => {

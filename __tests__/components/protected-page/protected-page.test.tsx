@@ -3,21 +3,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ProtectedPage } from "../../../src/components/protected-page/protected-page";
 import { USER_LOCAL_STATE_KEY } from "../../../src/constants/user";
 import { AuthProvider } from "../../../src/hooks/use-auth";
-import { User } from "../../../src/types/user";
 
-const mockAuthState: {
-  user: User | null,
-  login: jest.Mock,
-  logout: jest.Mock,
-} = {
-  user: null,
-  login: jest.fn(() => Promise.resolve()),
-  logout: jest.fn()
-}
-
-const renderWithAuthProviderAndRouter = (authState = mockAuthState) =>
+const renderWithAuthProviderAndRouter = () =>
   render(
-    <AuthProvider value={authState}>
+    <AuthProvider>
       <BrowserRouter>
         <Routes>
           <Route index element={<ProtectedPage><div>Catalog</div></ProtectedPage>} />

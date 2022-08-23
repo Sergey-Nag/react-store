@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header Should render component with guest username and without dropdown if user doesn't exist: with guest username 1`] = `
+<DocumentFragment>
+  <nav
+    class="navbar navbar-expand-lg navbar-light bg-light"
+  >
+    <div
+      class="container justify-content-end"
+    >
+      <div
+        class="d-flex align-items-baseline"
+      >
+        <div
+          class="avatar me-2"
+        >
+          Gu
+        </div>
+        <span
+          class="fw-bold"
+        >
+          Guest
+        </span>
+      </div>
+    </div>
+  </nav>
+</DocumentFragment>
+`;
+
+exports[`Header Should render component with username and dropdown if user exists: with username 1`] = `
+<DocumentFragment>
+  <nav
+    class="navbar navbar-expand-lg navbar-light bg-light"
+  >
+    <div
+      class="container justify-content-end"
+    >
+      <div
+        class="d-flex align-items-baseline"
+      >
+        <div
+          class="avatar me-2"
+        >
+          te
+        </div>
+        <span
+          class="fw-bold"
+        >
+          test@test.t
+        </span>
+        <div
+          class="position-relative"
+          role="menu"
+        >
+          <button
+            class="ms-2 btn"
+            type="button"
+          >
+            <svg
+              fill="currentColor"
+              height="1em"
+              viewBox="0 0 16 16"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</DocumentFragment>
+`;
