@@ -4,9 +4,10 @@ import { EMAIL_REGEXP } from "../../constants/email-regexp";
 import { useAuth } from "../../hooks/use-auth";
 import { useDebounce } from "../../hooks/use-debounce";
 import { LoadingButton } from "../loading-button/loading-button";
+import {Notification } from '../notification/notification';
 
 export function LoginComponent() {
-  const { login, user } = useAuth();
+  const { login, user, authError } = useAuth();
   const [username, setUsername] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isValid, setIsValid] = useState(false);
@@ -38,6 +39,7 @@ export function LoginComponent() {
 
   return (
     <div className="container h-100">
+      { authError && <Notification alertStyle="danger">{authError?.message}</Notification> }
       <div className="row justify-content-center align-items-center h-100">
         <div className="col-4">
           <div className="card p-3">

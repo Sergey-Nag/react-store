@@ -6,11 +6,13 @@ import { clearLocalStorageUser, getLocalStorageUser, setLocalStorageUser } from 
 interface AuthState {
   user: User | null,
   login: (username: string) => Promise<User | null>,
-  logout: () => void
+  logout: () => void,
+  authError: Error | null
 }
 
 const initialAuthState: AuthState = {
   user: null,
+  authError: null,
   login() { return Promise.resolve(null) },
   logout() {},
 };
@@ -28,9 +30,10 @@ export function AuthProvider(props: any) {
     try {
       userResponse = await loginUser(username);
       setUserData(userResponse);
-      setLocalStorageUser(userResponse)
-    } catch(e) {
-      setAuthError(e as Error);
+      setLocalStorageUser(userResponse);
+      setAuthError(null);
+    } catch(e: any) {
+      setAuthError(e);
     }
 
     return userResponse ?? null;
