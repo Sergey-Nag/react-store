@@ -5,7 +5,7 @@ import { USER_LOCAL_STATE_KEY } from "../../../src/constants/user";
 import { AuthProvider } from "../../../src/hooks/use-auth";
 import { loginUser } from '../../../src/api/user';
 
-jest.mock('../../../src/api/user', (): { loginUser: jest.Mock }=>({
+jest.mock('../../../src/api/user', () => ({
   loginUser: jest.fn()
 }));
 

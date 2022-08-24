@@ -12,7 +12,7 @@ export interface NotificationProps {
 }
 
 export function Notification({ alertStyle = 'primary', children  }: NotificationProps) {
-  const wrapper = useMemo(() => 
+  const wrapperElement = useMemo(() => 
       document.querySelector(`.${NOTIFICATION_WRAPPER_CLASSNAME}`) ?? createNotificationWrapper(),
       []
     );
@@ -43,6 +43,6 @@ export function Notification({ alertStyle = 'primary', children  }: Notification
         onClick={hideAlert}
       ></button>
     </div>,
-    wrapper
+    wrapperElement
   );
 }
