@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import React, { createContext, useContext, useEffect, useState, PropsWithChildren } from "react";
 import { createPortal } from "react-dom";
 import { Notification } from "../components/notification/notification";
 import { NOTIFICATION_LIFETIME } from "../constants/notification-lifetime";
@@ -20,7 +20,7 @@ interface NotificationItem {
 
 const NotificationContext = createContext(initialState);
 
-export function NotificationsProvider({ children }: { children: ReactNode }) {
+export function NotificationsProvider({ children }: PropsWithChildren) {
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
 
   const notify = (content: JSX.Element, type: NotificationStyle = NotificationStyle.default) => {

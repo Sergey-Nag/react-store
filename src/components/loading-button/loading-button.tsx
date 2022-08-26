@@ -1,13 +1,12 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import cn from 'classnames';
 
-interface LoadingButtonProps
+interface LoadingButtonProps 
   extends ButtonHTMLAttributes<HTMLButtonElement> {
   loading: boolean;
-  children: ReactNode;
 }
 
-export function LoadingButton({ className, loading, children, ...rest }: LoadingButtonProps) {
+export function LoadingButton({ className, loading, children, ...rest }: PropsWithChildren<LoadingButtonProps>) {
   const buttonClasses = cn('btn btn-primary', className);
 
   return (

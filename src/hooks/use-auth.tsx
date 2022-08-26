@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, PropsWithChildren, useContext, useState } from "react"
 import { loginUser } from "../api/user";
 import { User } from "../types/user";
 import { clearLocalStorageUser, getLocalStorageUser, setLocalStorageUser } from "../utils/user";
@@ -19,13 +19,12 @@ const initialAuthState: AuthState = {
 
 const AuthContext = createContext(initialAuthState);
 
-
-export function AuthProvider(props: any) {
+export function AuthProvider(props: PropsWithChildren) {
   const [userData, setUserData] = useState<User | null>(getLocalStorageUser);
   const [authError, setAuthError] = useState<Error | null>(null);
 
   const login = async (username: string) => {
-    if (userData) return;
+    if (userData) return null;
     let userResponse;
     try {
       userResponse = await loginUser(username);
@@ -44,7 +43,7 @@ export function AuthProvider(props: any) {
     setUserData(null);
   };
 
-  const authContextValue = { 
+  const authContextValue: AuthState = { 
     user: userData,
     authError,
     login,

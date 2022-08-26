@@ -14,7 +14,6 @@ import { useClickOutside } from "../../hooks/use-click-outside";
 
 export interface DropdownButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text?: string | ReactElement;
-  children?: ReactNode;
 }
 
 export function DropdownButton({ text, className, children }: DropdownButtonProps) {

@@ -1,4 +1,4 @@
-import { ReactNode, useMemo } from "react";
+import { PropsWithChildren, useMemo } from "react";
 import { ExclamationCircle, CheckCircle, InfoCircle } from 'react-bootstrap-icons';
 import './notification.scss';
 import cn from "classnames";
@@ -6,10 +6,9 @@ import { NotificationStyle } from "../../enums/notification-style";
 
 export interface NotificationProps {
   type: NotificationStyle,
-  children: ReactNode;
 }
 
-export function Notification({ type, children  }: NotificationProps) {
+export function Notification({ type, children  }: PropsWithChildren<NotificationProps>) {
   const Icon = useMemo(() => {
     switch(type) {
       case NotificationStyle.error: return ExclamationCircle;
