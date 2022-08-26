@@ -1,33 +1,13 @@
-.notification-wrapper {
-  padding: 1rem;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 100;
-  pointer-events: none;
-  display: flex;
-  flex-direction: column-reverse;
-  counter-set: alert;
-  
-  .alert {
-    counter-increment: alert;
-    min-width: 200px;
-    pointer-events: all;
+.notifications-wrapper .alert {
+  counter-increment: alert;
+  min-width: 200px;
+  pointer-events: all;
 
-    &::before {
-      content: counter(alert);
-      position: absolute;
-      top: 0;
-      left: 5px;
-      opacity: 0.5;
-    }
-
-    &:hover .btn-close {
-      display: block;
-    }
-  }
-
-  .btn-close {
-    display: none;
+  &::before {
+    content: counter(alert);
+    position: absolute;
+    top: 0;
+    left: 5px;
+    opacity: 0.5;
   }
 }

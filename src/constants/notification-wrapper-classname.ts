@@ -1,1 +1,0 @@
-export const NOTIFICATION_WRAPPER_CLASSNAME = 'notification-wrapper';

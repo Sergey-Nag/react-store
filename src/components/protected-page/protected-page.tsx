@@ -9,7 +9,7 @@ export function ProtectedPage({ children }: { children: React.ReactNode}) {
 
   useEffect(() => {
     if (!user) navigate(ROUTES.LOGIN);
-  }, []);
+  }, [user]);
 
   return user && <>{children}</>;
 }

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EMAIL_REGEXP } from "../../constants/email-regexp";
+import { NotificationStyle } from "../../enums/notification-style";
 import { useAuth } from "../../hooks/use-auth";
 import { useDebounce } from "../../hooks/use-debounce";
+import { useNotification } from "../../hooks/use-notification";
 import { LoadingButton } from "../loading-button/loading-button";
-import {Notification } from '../notification/notification';
 
 export function LoginComponent() {
   const { login, user, authError } = useAuth();
@@ -12,6 +13,7 @@ export function LoginComponent() {
   const [isLoading, setIsLoading] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const navigate = useNavigate();
+  const { notify } = useNotification();
   const debouncedUsername = useDebounce(username, 200);
 
   const handleUsernameChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,6 +30,12 @@ export function LoginComponent() {
   };
 
   useEffect(() => {
+    if (authError) {
+      notify(<div>{authError.message}</div>, NotificationStyle.error);
+    }
+  }, [authError]);
+
+  useEffect(() => {
     if (user) {
       navigate('/catalog');
     }
@@ -39,7 +47,6 @@ export function LoginComponent() {
 
   return (
     <div className="container h-100">
-      { authError && <Notification alertStyle="danger">{authError?.message}</Notification> }
       <div className="row justify-content-center align-items-center h-100">
         <div className="col-4">
           <div className="card p-3">

@@ -6,18 +6,23 @@ import { LoginComponent } from './components/login/login';
 import { NotFoundPage } from './components/not-found/not-found-page';
 import { AuthProvider } from './hooks/use-auth';
 import { ROUTES } from './constants/routes';
+import { NotificationsProvider } from './hooks/use-notification';
+import { NotificationsWrapper } from './components/notifications-wrapper/notifications-wrapper';
 
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <Header></Header>
-        <Routes>
+      <NotificationsProvider>
+        <NotificationsWrapper />
+        <BrowserRouter>
+          <Header></Header>
+          <Routes>
             <Route path={ROUTES.LOGIN} element={<LoginComponent />} />
             <Route path={ROUTES.CATALOG} element={<ProtectedPage><div>Catalog page</div></ProtectedPage>} />
             <Route path='*' element={<NotFoundPage />} />
-        </Routes>
-      </BrowserRouter>
+          </Routes>
+        </BrowserRouter>
+      </NotificationsProvider>
     </AuthProvider>
   );
 }
