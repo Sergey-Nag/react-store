@@ -5,7 +5,7 @@ import { USER_LOCAL_STATE_KEY } from "../../../src/constants/user";
 import { AuthProvider } from "../../../src/hooks/use-auth";
 import { loginUser } from '../../../src/api/user';
 import { NotificationsProvider } from "../../../src/hooks/use-notification";
-import { NotificationsWrapper } from "../../../src/components/notifications-wrapper/notifications-wrapper";
+import { NOTIFICATION_WRAPPER_ID } from "../../../src/constants/notification-wrapper-id";
 
 jest.mock('../../../src/api/user', () => ({
   loginUser: jest.fn()
@@ -34,8 +34,8 @@ describe('Login', () => {
       render(
       <AuthProvider>
         <NotificationsProvider>
-          <NotificationsWrapper />
-            <BrowserRouter>
+          <div id={NOTIFICATION_WRAPPER_ID}></div>
+          <BrowserRouter>
             <Routes>
               <Route index element={<LoginComponent />} />
               <Route path='/catalog' element={<div>Catalog</div>} />

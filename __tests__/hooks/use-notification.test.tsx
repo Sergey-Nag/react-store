@@ -1,26 +1,26 @@
 import { render, waitFor, screen, fireEvent } from "@testing-library/react";
 import { ReactElement } from "react";
-import { NotificationsWrapper } from "../../src/components/notifications-wrapper/notifications-wrapper";
 import { NOTIFICATION_LIFETIME } from "../../src/constants/notification-lifetime";
+import { NOTIFICATION_WRAPPER_ID } from "../../src/constants/notification-wrapper-id";
 import { NotificationStyle } from "../../src/enums/notification-style";
 import { NotificationsProvider, useNotification } from "../../src/hooks/use-notification";
 
 const renderWithNotificationsProvider = (children: ReactElement) => 
   render(
     <NotificationsProvider>
-      <NotificationsWrapper></NotificationsWrapper>
+      <div id={NOTIFICATION_WRAPPER_ID}></div>
       {children}
     </NotificationsProvider>
   )
 
-const Notifier = ({ notification }: {notification: JSX.Element}) => {
+const Notifier = ({ notification, type }: {notification: JSX.Element, type?: NotificationStyle}) => {
   const {notify} = useNotification();
 
-  return <button onClick={() => notify(notification, NotificationStyle.default)}>Notify {notification}</button>
+  return <button onClick={() => notify(notification, type)}>Notify {notification}</button>
 }
 
 describe('Notification provider and hook', () => {
-  it('Should show notification', async () => {
+  it('Should show notification (without passing on the type prop)', async () => {
     renderWithNotificationsProvider(
       <Notifier notification={<>Test</>} />
     );
@@ -28,13 +28,13 @@ describe('Notification provider and hook', () => {
     fireEvent.click(screen.getByText('Notify Test'));
 
     await waitFor(() => {
-      expect(screen.getByText('Test')).toBeInTheDocument();
+      expect(screen.getByRole('alert')).toBeInTheDocument();
     });
   });
 
-  it('Should stack notifications', async () => {
+  it('Should stack notifications (with the error type prop )', async () => {
     renderWithNotificationsProvider(
-      <Notifier notification={<>Test</>} />
+      <Notifier notification={<>Test</>} type={NotificationStyle.error} />
     );
 
     fireEvent.click(screen.getByText('Notify Test'));
@@ -42,33 +42,20 @@ describe('Notification provider and hook', () => {
     fireEvent.click(screen.getByText('Notify Test'));
 
     await waitFor(() => {
-      expect(screen.getAllByText('Test')).toHaveLength(3);
+      expect(screen.getAllByRole('alert')).toHaveLength(3);
     });
   });
 
-  it(`Should remove notification one by one`, () => {
-    renderWithNotificationsProvider( 
-      <>
-        <Notifier notification={<>Test</>} />
-        <Notifier notification={<>Test 2</>} />
-      </>
+  it('Should remove notification after notification\'s lifetime expires (with the info type prop)', async () => {
+    renderWithNotificationsProvider(
+      <Notifier notification={<>Test</>} type={NotificationStyle.info} />
     );
 
     fireEvent.click(screen.getByText('Notify Test'));
-    expect(screen.getByText('Test')).toBeInTheDocument();
+    expect(screen.getByRole('alert')).toBeInTheDocument();
 
-    setTimeout(() => {
-      fireEvent.click(screen.getByText('Notify Test 2'));
-      expect(screen.getByText('Test 2')).toBeInTheDocument();
-    }, NOTIFICATION_LIFETIME / 2);
-    
-    setTimeout(() => {
-      expect(screen.queryByText('Test')).not.toBeInTheDocument();
-      expect(screen.getByText('Test 2')).toBeInTheDocument();
-    }, NOTIFICATION_LIFETIME);
-    
-    setTimeout(() => {
-      expect(screen.queryByText('Test 2')).not.toBeInTheDocument();
-    }, NOTIFICATION_LIFETIME * 2);
+    await waitFor(() => {
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    }, { timeout: NOTIFICATION_LIFETIME});
   });
 });

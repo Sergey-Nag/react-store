@@ -7,13 +7,13 @@ import { NotFoundPage } from './components/not-found/not-found-page';
 import { AuthProvider } from './hooks/use-auth';
 import { ROUTES } from './constants/routes';
 import { NotificationsProvider } from './hooks/use-notification';
-import { NotificationsWrapper } from './components/notifications-wrapper/notifications-wrapper';
+import { NOTIFICATION_WRAPPER_ID } from './constants/notification-wrapper-id';
 
 function App() {
   return (
     <AuthProvider>
       <NotificationsProvider>
-        <NotificationsWrapper />
+        <div id={NOTIFICATION_WRAPPER_ID}></div>
         <BrowserRouter>
           <Header></Header>
           <Routes>
