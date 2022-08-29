@@ -4,6 +4,8 @@ import { LoginComponent } from "../../../src/components/login/login";
 import { USER_LOCAL_STATE_KEY } from "../../../src/constants/user";
 import { AuthProvider } from "../../../src/hooks/use-auth";
 import { loginUser } from '../../../src/api/user';
+import { NotificationsProvider } from "../../../src/hooks/use-notification";
+import { NotificationsWrapper } from "../../../src/components/notifications-wrapper/notifications-wrapper";
 
 jest.mock('../../../src/api/user', () => ({
   loginUser: jest.fn()
@@ -28,6 +30,21 @@ describe('Login', () => {
       </AuthProvider>
     );
 
+  const renderWithNotificationsAuthAndRouter = () => 
+      render(
+      <AuthProvider>
+        <NotificationsProvider>
+          <NotificationsWrapper />
+            <BrowserRouter>
+            <Routes>
+              <Route index element={<LoginComponent />} />
+              <Route path='/catalog' element={<div>Catalog</div>} />
+            </Routes>
+          </BrowserRouter>
+        </NotificationsProvider>
+      </AuthProvider>
+      )
+
   afterEach(() => {
     localStorage.clear();
     jest.resetAllMocks();
@@ -40,13 +57,9 @@ describe('Login', () => {
   });
 
   it('Should show error notification if request fails', async () => {
-    const root = document.createElement('div');
-    root.id = 'root';
-    document.body.append(root);
-
     (loginUser as jest.Mock).mockRejectedValue(new Error('Something went wrong'));
 
-    renderWithAuthProviderAndRouter();
+    renderWithNotificationsAuthAndRouter();
 
     fireEvent.change(
       screen.getByRole('textbox'), 
