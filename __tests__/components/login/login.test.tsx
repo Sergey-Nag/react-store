@@ -4,8 +4,10 @@ import { LoginComponent } from "../../../src/components/login/login";
 import { USER_LOCAL_STATE_KEY } from "../../../src/constants/user";
 import { AuthProvider } from "../../../src/hooks/use-auth";
 import { loginUser } from '../../../src/api/user';
+import { NotificationsProvider } from "../../../src/hooks/use-notification";
+import { NOTIFICATION_WRAPPER_ID } from "../../../src/constants/notification-wrapper-id";
 
-jest.mock('../../../src/api/user', (): { loginUser: jest.Mock }=>({
+jest.mock('../../../src/api/user', () => ({
   loginUser: jest.fn()
 }));
 
@@ -28,14 +30,56 @@ describe('Login', () => {
       </AuthProvider>
     );
 
+  const renderWithNotificationsAuthAndRouter = () => 
+      render(
+      <AuthProvider>
+        <NotificationsProvider>
+          <div id={NOTIFICATION_WRAPPER_ID}></div>
+          <BrowserRouter>
+            <Routes>
+              <Route index element={<LoginComponent />} />
+              <Route path='/catalog' element={<div>Catalog</div>} />
+            </Routes>
+          </BrowserRouter>
+        </NotificationsProvider>
+      </AuthProvider>
+      )
+
   afterEach(() => {
     localStorage.clear();
+    jest.resetAllMocks();
   });
 
   it('Should render login component', () => {
     const { asFragment } = renderWithAuthProviderAndRouter();
 
     expect(asFragment()).toMatchSnapshot();
+  });
+
+  it('Should show error notification if request fails', async () => {
+    (loginUser as jest.Mock).mockRejectedValue(new Error('Something went wrong'));
+
+    renderWithNotificationsAuthAndRouter();
+
+    fireEvent.change(
+      screen.getByRole('textbox'), 
+      { target : { value: 'test@test.tt' }}
+    );
+    
+    const submitButton = screen.getByRole('button');
+
+    await waitFor(() => expect(submitButton).toBeEnabled());
+
+    fireEvent.click(submitButton);
+
+    expect(submitButton).toBeDisabled();
+
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).toBeInTheDocument();
+    });
+
+    expect(screen.getByText('Something went wrong')).toBeInTheDocument();
+    expect(submitButton).toBeEnabled();
   });
 
   describe('The Submit button shold be desabled with values', () => {

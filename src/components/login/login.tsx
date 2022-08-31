@@ -1,16 +1,19 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EMAIL_REGEXP } from "../../constants/email-regexp";
+import { NotificationStyle } from "../../enums/notification-style";
 import { useAuth } from "../../hooks/use-auth";
 import { useDebounce } from "../../hooks/use-debounce";
+import { useNotification } from "../../hooks/use-notification";
 import { LoadingButton } from "../loading-button/loading-button";
 
 export function LoginComponent() {
-  const { login, user } = useAuth();
+  const { login, user, authError } = useAuth();
   const [username, setUsername] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const navigate = useNavigate();
+  const { notify } = useNotification();
   const debouncedUsername = useDebounce(username, 200);
 
   const handleUsernameChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +28,12 @@ export function LoginComponent() {
 
     setIsLoading(false);
   };
+
+  useEffect(() => {
+    if (authError) {
+      notify(<div>{authError.message}</div>, NotificationStyle.error);
+    }
+  }, [authError]);
 
   useEffect(() => {
     if (user) {

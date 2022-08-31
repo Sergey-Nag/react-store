@@ -14,7 +14,6 @@ import { useClickOutside } from "../../hooks/use-click-outside";
 
 export interface DropdownButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text?: string | ReactElement;
-  children?: ReactNode;
 }
 
 export function DropdownButton({ text, className, children }: DropdownButtonProps) {
@@ -26,7 +25,7 @@ export function DropdownButton({ text, className, children }: DropdownButtonProp
   useClickOutside(buttonRef, handleCloseDropdown);
   
   function handleCloseDropdown() {
-     setIsDropdownShown(false);
+    setIsDropdownShown(false);
   }
 
   const extendChildClassName = (child: ReactNode) => {
@@ -41,7 +40,6 @@ export function DropdownButton({ text, className, children }: DropdownButtonProp
 
     return child;
   }
-
 
   return (
     <div
